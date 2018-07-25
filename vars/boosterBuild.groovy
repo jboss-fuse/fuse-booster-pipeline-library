@@ -37,7 +37,7 @@ def call() {
             try {
               sh './mvnw -B -V test'
             } finally {
-              junit(testResults: 'target/*-reports/*.xml', allowEmptyResults: true)
+              junit(testResults: '**/target/*-reports/*.xml', allowEmptyResults: true)
             }
           }
 
@@ -47,7 +47,7 @@ def call() {
               sh './mvnw -B -V fabric8:deploy -Popenshift'
             } finally {
               sh "${oc_home}/oc cluster down"
-              junit(testResults: 'target/*-reports/*.xml', allowEmptyResults: true)
+              junit(testResults: '**/target/*-reports/*.xml', allowEmptyResults: true)
             }
           }
         }
