@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-def call() {
+def call(imageToImport=null) {
   properties([
     [
       $class: 'BuildDiscarderProperty',
@@ -44,10 +44,15 @@ def call() {
           stage('Integration Test') {
             sh "${oc_home}/oc cluster up"
             try {
-              sh './mvnw -B -V fabric8:deploy -Popenshift'
+              if(imageToImport!=null){
+                sh "${oc_home}/oc import-image fuse-java-openshift:1.0 --from="+imageToImport+"--confirm"
+                sh './mvnw -B -V -DskipTests fabric8:deploy -Popenshift -Dfabric8.generator.fromMode=istag -Dfabric8.generator.from=myproject/fuse-java-openshift:1.0'  
+              } else {
+                sh './mvnw -B -V -DskipTests fabric8:deploy -Popenshift'
+              }
             } finally {
               sh "${oc_home}/oc cluster down"
-              junit(testResults: '**/target/*-reports/*.xml', allowEmptyResults: true)
+              //junit(testResults: '**/target/*-reports/*.xml', allowEmptyResults: true)
             }
           }
         }
