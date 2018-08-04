@@ -52,7 +52,21 @@ def call(imageToImport=null) {
               }
             } finally {
               sh "${oc_home}/oc cluster down"
-              //junit(testResults: '**/target/*-reports/*.xml', allowEmptyResults: true)
+            }
+          }
+          
+          stage('Template Integration Test') {
+            sh "${oc_home}/oc cluster up"
+            try {
+              if(imageToImport!=null){
+                sh "${oc_home}/oc import-image fuse-java-openshift:1.0 --from="+imageToImport+" --confirm"
+                sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false
+              } else {
+                sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false
+              }
+            } finally {
+              sh "${oc_home}/oc cluster down"
+              junit(testResults: '**/target/*-reports/*.xml', allowEmptyResults: true)
             }
           }
         }
