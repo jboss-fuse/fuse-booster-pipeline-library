@@ -60,9 +60,9 @@ def call(imageToImport=null) {
             try {
               if(imageToImport!=null){
                 sh "${oc_home}/oc import-image fuse-java-openshift:1.0 --from="+imageToImport+" --confirm"
-                sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false
+                sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false'
               } else {
-                sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false
+                sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false'
               }
             } finally {
               sh "${oc_home}/oc cluster down"
