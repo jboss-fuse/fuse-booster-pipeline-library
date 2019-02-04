@@ -45,8 +45,8 @@ def call(imageToImport=null) {
             sh "${oc_home}/oc cluster up"
             try {
               if(imageToImport!=null){
-                sh "${oc_home}/oc import-image fuse-java-openshift:1.0 --from="+imageToImport+" --confirm"
-                sh './mvnw -B -V -DskipTests fabric8:deploy -Popenshift -Dfabric8.generator.fromMode=istag -Dfabric8.generator.from=myproject/fuse-java-openshift:1.0'  
+                sh "${oc_home}/oc import-image fuse-java-openshift:1.2 --from="+imageToImport+" --confirm"
+                sh './mvnw -B -V -DskipTests fabric8:deploy -Popenshift -Dfabric8.generator.fromMode=istag -Dfabric8.generator.from=myproject/fuse-java-openshift:1.2'  
               } else {
                 sh './mvnw -B -V -DskipTests fabric8:deploy -Popenshift'
               }
@@ -59,7 +59,7 @@ def call(imageToImport=null) {
             sh "${oc_home}/oc cluster up"
             try {
               if(imageToImport!=null){
-                sh "${oc_home}/oc import-image fuse-java-openshift:1.0 --from="+imageToImport+" --confirm"
+                sh "${oc_home}/oc import-image fuse-java-openshift:1.2 --from="+imageToImport+" --confirm"
                 sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false clean test'
               } else {
                 sh './mvnw -B -V -Dtest=*KT -DfailIfNoTests=false clean test'
