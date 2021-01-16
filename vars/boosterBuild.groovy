@@ -27,7 +27,7 @@ def call(imageToImport=null) {
         ansiColor('xterm') {
           checkout scm
 
-            def oc_home = tool 'oc-v3.9.0-191fece'
+            def oc_home = tool 'oc-v3-latest'
 
             stage('Build') {
               sh './mvnw -B -V clean verify -DskipTests'
